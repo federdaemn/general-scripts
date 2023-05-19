@@ -24,7 +24,7 @@ jobs:
       - name: Merge!
         run: |
           # go to the repository/directory
-          cd $GITHUB_WORKSPACE/federdaemn/2.1-ublue-merkuros
+          cd $GITHUB_WORKSPACE/federdaemn_2_1-ublue-merkuros
           # add the upstream repository
           git remote add upstream https://github.com/ublue-os/startingpoint.git
           # merge template branch
@@ -33,4 +33,6 @@ jobs:
 
       - name: push the merged branch
         if: github.event_name != 'pull_request'
-        run: git push
+        run: |
+          cd $GITHUB_WORKSPACE/federdaemn_2_1-ublue-merkuros
+          git push
