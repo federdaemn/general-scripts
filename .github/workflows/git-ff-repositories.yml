@@ -4,35 +4,47 @@ name: Automatically fast forward merge repositories
 on:
   workflow_dispatch: # run this workflow manually
   schedule:
-    - cron: '0 2 * * *' # Every day at 02:00
+    - cron: '0 2 * * *' # * every day at 02:00
 
-# jobs to run
+# * create 1 job for every repository
 jobs:
   federdaemn_2_1-ublue-merkuros:
     name: Fast forward merge federdaemn/2.1-ublue-merkuros
     runs-on: ubuntu-latest
-   
+    env:
+      REPOSITORY: federdaemn/2.1-ublue-merkuros
+      ORIGIN: origin
+      UPSTREAM: upstream
+      BRANCH: template
+      PATH_REPO: federdaemn_2_1-ublue-merkuros
+      UPSTREAM_URL: https://github.com/ublue-os/startingpoint.git
+
     # steps to perform
     steps:
-      - name: Checkout needed repository
+      - name: checkout needed repository
         uses: actions/checkout@v3
         with:
-          repository: 'federdaemn/2.1-ublue-merkuros'
-          path: 'federdaemn_2_1-ublue-merkuros'
+          # * repository
+          repository: $REPOSITORY
+          # * branch
+          ref: $BRANCH
+          # * path under $GITHUB_WORKSPACE
+          path: $PATH_REPO
+          # * token to access the repository
           token: '${{ secrets.GIT_FF_REPOSITORIES_TOKEN }}'
         
-      - name: Merge!
+      - name: Only do a fast-forward merge with upstream!
         run: |
           # go to the repository/directory
-          cd $GITHUB_WORKSPACE/federdaemn_2_1-ublue-merkuros
+          cd $GITHUB_WORKSPACE/$PATH_REPO
           # add the upstream repository
-          git remote add upstream https://github.com/ublue-os/startingpoint.git
+          git remote add upstream $UPSTREAM_URL
           # merge template branch
-          git pull --ff-only upstream template
+          git pull --ff-only $UPSTREAM $BRANCH
 
 
       - name: push the merged branch
         if: github.event_name != 'pull_request'
         run: |
-          cd $GITHUB_WORKSPACE/federdaemn_2_1-ublue-merkuros
-          git push
+          cd $GITHUB_WORKSPACE/$PATH_REPO
+          git push $ORIGIN $BRANCH
