@@ -1,0 +1,33 @@
+name: Automatically fast forward merge repositories
+
+# when the workflow is triggered
+on:
+  workflow_dispatch: # run this workflow manually
+  schedule:
+    - cron: '0 2 * * *' # Every day at 02:00
+
+# jobs to run
+jobs:
+  fast-forward-merge:
+    name: Fast forward merge all repositories
+    runs-on: ubuntu-latest
+    # specify which repos to clone
+    strategy:
+      matrix:
+        repo: 'federdaemn/2.1-ublue-merkuros'
+   
+    # steps to perform
+    steps:
+      - name: Checkout needed repositories
+        uses: actions/checkout@v3
+        with:
+          repository: '${{ matrix.repo }}'
+          path: '${{ matrix.repo }}'
+          token: '${{ secrets.GIT_FF_REPOSITORIES_TOKEN }}'
+        
+      - name: Merge!
+        run: |
+          cd $GITHUB_WORKSPACE/${{ matrix.repo }}
+          git remote add upstream $(if [ "${{ matrix.repo }}" == "federdaemn/2.1-ublue-merkuros" ]; then echo "https://github.com/ublue-os/startingpoint.git"; fi)
+          git pull --ff-only upstream main
+        
