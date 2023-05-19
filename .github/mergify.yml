@@ -1,0 +1,28 @@
+# config file for mergify
+# automatically merge pull request into main branch
+
+## automatic merge
+pull_request_rules:
+  - name: automatic merge when semantic prs passes and label "merge-ready" and not "work-in-progress"
+    conditions:
+    - check-success=Semantic PR
+    - label=merge-ready
+    - label!=work-in-progress
+    actions:
+      merge:
+        method: merge
+
+  ### bots
+  - name: automatic merge for ImgBot pull requests
+    conditions:
+      - author=imgbot[bot]
+    actions:
+      merge:
+        method: merge
+
+  ### delete branches for closed pull requests
+  - name: delete head branch after merge
+    conditions:
+      - merged
+    actions:
+      delete_head_branch:  
