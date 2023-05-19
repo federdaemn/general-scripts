@@ -1,0 +1,36 @@
+name: Automatically fast forward merge repositories
+
+# when the workflow is triggered
+on:
+  workflow_dispatch: # run this workflow manually
+  schedule:
+    - cron: '0 2 * * *' # Every day at 02:00
+
+# jobs to run
+jobs:
+  federdaemn_2_1-ublue-merkuros:
+    name: Fast forward merge federdaemn/2.1-ublue-merkuros
+    runs-on: ubuntu-latest
+   
+    # steps to perform
+    steps:
+      - name: Checkout needed repository
+        uses: actions/checkout@v3
+        with:
+          repository: 'federdaemn/2.1-ublue-merkuros'
+          path: 'federdaemn_2_1-ublue-merkuros'
+          token: '${{ secrets.GIT_FF_REPOSITORIES_TOKEN }}'
+        
+      - name: Merge!
+        run: |
+          # go to the repository/directory
+          cd $GITHUB_WORKSPACE/federdaemn/2.1-ublue-merkuros
+          # add the upstream repository
+          git remote add upstream https://github.com/ublue-os/startingpoint.git
+          # merge template branch
+          git pull --ff-only upstream template
+
+
+      - name: push the merged branch
+        if: github.event_name != 'pull_request'
+        run: git push
