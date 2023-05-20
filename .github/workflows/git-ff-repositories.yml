@@ -25,11 +25,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           # * repository
-          repository: $REPOSITORY
+          repository: '${{ env.REPOSITORY }}'
           # * branch
-          ref: $BRANCH
+          ref: '${{ env.BRANCH }}'
           # * path under $GITHUB_WORKSPACE
-          path: $PATH_REPO
+          path: '${{ env.PATH_REPO }}'
           # * token to access the repository
           token: '${{ secrets.GIT_FF_REPOSITORIES_TOKEN }}'
         
