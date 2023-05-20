@@ -19,6 +19,13 @@ General scripts to manage and setup my systems
 
 **Both scripts also install Nix.**
 
+## Files for other repositories
+
+### federdaemn/2.1-ublue-merkuros
+
+* vscode.repo: import this .repo file in recipe.yml
+* ? easier updates and less duplicated files
+
 ## GitHub inbuilts
 
 ### Actions
