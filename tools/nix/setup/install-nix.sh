@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Install Nix
 
-# To use this script run `bash <(curl-s https://federdaemn.github.io/2.1-general-scripts/tools/nix/setup/install-nix.sh)>`
+# To use this script run `bash <(curl-s https://federdaemn.github.io/general-scripts/tools/nix/setup/install-nix.sh)>`
 
 ## Tell this script to exit if there are any errors.
 set -oue pipefail
