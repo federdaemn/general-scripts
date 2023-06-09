@@ -9,14 +9,14 @@ on:
 # * create 1 job for every repository
 jobs:
   federdaemn_2_1-ublue-merkuros:
-    name: Fast forward merge federdaemn/2.1-ublue-merkuros
+    name: Fast forward merge federdaemn/ublue-merkuros
     runs-on: ubuntu-latest
     env:
-      REPOSITORY: federdaemn/2.1-ublue-merkuros
+      REPOSITORY: federdaemn/ublue-merkuros
       ORIGIN: origin
       UPSTREAM: upstream
       BRANCH: template
-      PATH_REPO: federdaemn_2_1-ublue-merkuros
+      PATH_REPO: federdaemn_ublue-merkuros
       UPSTREAM_URL: https://github.com/ublue-os/startingpoint.git
 
     # steps to perform
